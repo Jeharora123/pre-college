@@ -1,47 +1,60 @@
-class Delivery:
-    def __init__(self,deliveries):
-        self.deliveries=deliveries
+class Movie:
+    def __init__(self,seats,price):
+        self.price=price
+        self.seats=seats
 
-    def add_delivery(self,delno,dele):
-        self.deliveries.update({delno:dele})
+    def view(self):
+        for seat in self.seats:
+            if self.seats[seat]=="A":
+                print(seat)
 
-    def remove_delivery(self,delno):
-        self.deliveries.pop(delno)
-
-    def display(self):
-        for delivery in self.deliveries:
-            print(delivery,self.deliveries[delivery])
-
-    def pending_delivery(self):
-        for delivery in self.deliveries:
-            if(self.deliveries[delivery][1]=="N"):
-                print(delivery)
-
-    def complete_delivery(self,delno):
-        for delivery in self.deliveries:
-            if delivery==delno:
-                self.deliveries[delivery][1]="Y"
-
-    def covered_distance(self):
-        c=0
-        for delivery in self.deliveries:
-            if(self.deliveries[delivery][1]=="Y"):
-                c+=self.deliveries[delivery][0]
-
-        print("the total amount of ditance covered by the driver is: "+str(c))
-
+    def book(self):
     
-def main():
-    obj=Delivery({})
-    obj.add_delivery("001",[5,"N"])
-    obj.add_delivery("002",[7,"N"])
-    obj.add_delivery("003",[10,"N"])
-    obj.add_delivery("004",[2,"N"])
-    obj.add_delivery("005",[1,"N"])
-    obj.complete_delivery("002")
-    obj.covered_distance()
-    obj.pending_delivery()
-    obj.display()
+        i=int(input("enter number of tickets to be booked"))
+        for _ in range(i):
+            j=int(input("seats 1-5 cost 500,the rest cost 200 \n enter seat number: "))
+            if self.seats[j] !="B":
+             self.seats[j]="B"
+            else:
+             print("book another seat,this one is taken")
+            if(j<=5):
+                self.price+=500
+            else:
+                self.price+=200
 
+            
+        
+
+    def cancel(self):
+         
+        i=int(input("enter number of tickets to be cancelled"))
+        for _ in range(i):
+            j=int(input("enter seat number to be cancelled,u will get 300 back for a 500rp wicket and 100 for a 200 rp "))
+            if(j<=5):
+                self.price-=500
+            else:
+                self.price-=200
+
+            self.seats[j]="A"
+
+    def bill(self):
+        print("TICKETS BOOKED:")
+        for seat in self.seats:
+            if(self.seats[seat]=="B"):
+                print(seat)
+
+        print("total bill for ur movie is: "+str(self.price))
+             
+        
+
+def main():
+    seats={}
+    for _ in range(20):
+        seats.update({_+1:"A"})
+    obj=Movie(seats,0)
+    obj.view()
+    obj.book()
+    obj.cancel()
+    obj.bill()    
 
 main()
